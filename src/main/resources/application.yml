@@ -1,13 +1,14 @@
 server:
-  port: 8080
+  port: 8081
+  servlet:
+    context-path: /zhousz/blog
 spring:
   datasource:
-    name: tmall
+    name: blog
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/tmall?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&ssl=false
-      filter: stat
+      url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&ssl=false
       username: root
       password: root
       initial-size: 1
@@ -21,9 +22,14 @@ spring:
       test-on-return: false
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
+  mvc:
+    view:
+      prefix: /WEB-INF/views
+      suffix: .jsp
+    static-path-pattern: /static/**
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.zhousz.tmall.model
+  type-aliases-package: com.zhousz.blog.model
 pagehelper:
   helper-dialect: mysql
   reasonable: true

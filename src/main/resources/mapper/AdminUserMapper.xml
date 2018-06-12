@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zhousz.blog.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.zhousz.blog.model.User" >
+<mapper namespace="com.zhousz.blog.dao.AdminUserMapper" >
+  <resultMap id="BaseResultMap" type="com.zhousz.blog.model.AdminUser" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -13,13 +13,11 @@
       <arg column="qq" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="wecaht" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="level" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="gmt_create" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="gmt_modified" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.zhousz.blog.model.UserWithBLOBs" >
+  <resultMap id="ResultMapWithBLOBs" type="com.zhousz.blog.model.AdminUserWithBLOBs" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -31,8 +29,6 @@
       <arg column="qq" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="wecaht" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="level" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="gmt_create" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="gmt_modified" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="hobby" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
@@ -42,7 +38,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, username, password, birth_date, nickname, email, github, qq, wecaht, avatar, 
-    status, level, gmt_create, gmt_modified
+    gmt_create, gmt_modified
   </sql>
   <sql id="Blob_Column_List" >
     hobby, motto, md_info
@@ -52,29 +48,29 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from user
+    from admin_user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user
+    delete from admin_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.zhousz.blog.model.UserWithBLOBs" >
-    insert into user (id, username, password, 
+  <insert id="insert" parameterType="com.zhousz.blog.model.AdminUserWithBLOBs" >
+    insert into admin_user (id, username, password, 
       birth_date, nickname, email, 
       github, qq, wecaht, 
-      avatar, status, level, 
-      gmt_create, gmt_modified, hobby, 
-      motto, md_info)
+      avatar, gmt_create, gmt_modified, 
+      hobby, motto, md_info
+      )
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{birthDate,jdbcType=DATE}, #{nickname,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{github,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{wecaht,jdbcType=VARCHAR}, 
-      #{avatar,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{hobby,jdbcType=LONGVARCHAR}, 
-      #{motto,jdbcType=LONGVARCHAR}, #{mdInfo,jdbcType=LONGVARCHAR})
+      #{avatar,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{hobby,jdbcType=LONGVARCHAR}, #{motto,jdbcType=LONGVARCHAR}, #{mdInfo,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.zhousz.blog.model.UserWithBLOBs" >
-    insert into user
+  <insert id="insertSelective" parameterType="com.zhousz.blog.model.AdminUserWithBLOBs" >
+    insert into admin_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -105,12 +101,6 @@
       </if>
       <if test="avatar != null" >
         avatar,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="level != null" >
-        level,
       </if>
       <if test="gmtCreate != null" >
         gmt_create,
@@ -159,12 +149,6 @@
       <if test="avatar != null" >
         #{avatar,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="level != null" >
-        #{level,jdbcType=INTEGER},
-      </if>
       <if test="gmtCreate != null" >
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -182,8 +166,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zhousz.blog.model.UserWithBLOBs" >
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhousz.blog.model.AdminUserWithBLOBs" >
+    update admin_user
     <set >
       <if test="username != null" >
         username = #{username,jdbcType=VARCHAR},
@@ -212,12 +196,6 @@
       <if test="avatar != null" >
         avatar = #{avatar,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="level != null" >
-        level = #{level,jdbcType=INTEGER},
-      </if>
       <if test="gmtCreate != null" >
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -236,8 +214,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhousz.blog.model.UserWithBLOBs" >
-    update user
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhousz.blog.model.AdminUserWithBLOBs" >
+    update admin_user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       birth_date = #{birthDate,jdbcType=DATE},
@@ -247,8 +225,6 @@
       qq = #{qq,jdbcType=VARCHAR},
       wecaht = #{wecaht,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      level = #{level,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       hobby = #{hobby,jdbcType=LONGVARCHAR},
@@ -256,8 +232,8 @@
       md_info = #{mdInfo,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zhousz.blog.model.User" >
-    update user
+  <update id="updateByPrimaryKey" parameterType="com.zhousz.blog.model.AdminUser" >
+    update admin_user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       birth_date = #{birthDate,jdbcType=DATE},
@@ -267,8 +243,6 @@
       qq = #{qq,jdbcType=VARCHAR},
       wecaht = #{wecaht,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      level = #{level,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
